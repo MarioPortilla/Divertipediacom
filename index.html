@@ -249,7 +249,7 @@
             </h1>
             <p class="font-body-lg text-body-lg text-on-surface-variant">
               Descubre un espacio diseñado para potenciar las habilidades
-              cognitivas y sociales de tus pequeños a través del juego dinámico
+              cognitivas y sociales de tus peques a través del juego dinámico
               y la exploración creativa.
             </p>
             <div class="flex flex-wrap gap-4">
@@ -312,7 +312,7 @@
             </p>
             <p class="font-body-md text-body-md text-on-surface-variant">
               Nos enfocamos en crear un ambiente donde la seguridad y la
-              diversión van de la mano, permitiendo que los pequeños desarrollen
+              diversión van de la mano, permitiendo que los peques desarrollen
               su máximo potencial mientras exploran el mundo que les rodea.
             </p>
             <div class="grid grid-cols-2 gap-4 pt-4">
@@ -364,26 +364,28 @@
           class="px-margin-mobile md:px-margin-desktop max-w-[1280px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           <!-- Service Cards -->
-          <div
-            class="bg-white p-8 rounded-lg shadow-sm hover:shadow-xl transition-all squishy-hover border border-outline-variant/20 group"
-          >
+          <a href="Services/krea.html">
             <div
-              class="w-16 h-16 bg-primary-fixed text-primary-container rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-sm"
+              class="bg-white p-8 rounded-lg shadow-sm hover:shadow-xl transition-all squishy-hover border border-outline-variant/20 group"
             >
-              <span class="material-symbols-outlined text-[32px]"
-                >sports_soccer</span
+              <div
+                class="w-16 h-16 bg-primary-fixed text-primary-container rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-sm"
               >
+                <span class="material-symbols-outlined text-[32px]"
+                  >sports_soccer</span
+                >
+              </div>
+              <h3 class="font-headline-md text-headline-md mb-4">
+                Prekinder KREA
+              </h3>
+              <p class="text-on-surface-variant">
+                Programa educativo integral que impulsa el desarrollo infantil
+                mediante el juego, la creatividad y experiencias significativas.
+                Trabajamos con el enfoque Montessori para fomentar la autonomía,
+                independencia
+              </p>
             </div>
-            <h3 class="font-headline-md text-headline-md mb-4">
-              Prekinder KREA
-            </h3>
-            <p class="text-on-surface-variant">
-              Programa educativo integral que impulsa el desarrollo infantil
-              mediante el juego, la creatividad y experiencias significativas.
-              Trabajamos con el enfoque Montessori para fomentar la autonomía,
-              independencia
-            </p>
-          </div>
+          </a>
           <div
             class="bg-white p-8 rounded-lg shadow-sm hover:shadow-xl transition-all squishy-hover border border-outline-variant/20 group"
           >
@@ -399,7 +401,7 @@
             </h3>
             <p class="text-on-surface-variant">
               Programa enfocado en fortalecer la comunicación, comprensión y
-              expresión verbal en los pequeños mediante actividades lúdicas y
+              expresión verbal en los peques mediante actividades lúdicas y
               estrategias personalizadas.
             </p>
           </div>
@@ -415,7 +417,7 @@
               Terapia Emocional
             </h3>
             <p class="text-on-surface-variant">
-              Espacio terapéutico diseñado para acompañar a los pequeños en el
+              Espacio terapéutico diseñado para acompañar a los peques en el
               reconocimiento, expresión y manejo saludable de sus emociones
               mediante el juego y actividades significativas.
             </p>
@@ -436,7 +438,7 @@
             <p class="text-on-surface-variant">
               Intervención terapéutica enfocada en fortalecer conductas
               positivas, habilidades de autorregulación y adaptación en los
-              pequeños mediante estrategias respetuosas y actividades dinámicas.
+              peques mediante estrategias respetuosas y actividades dinámicas.
             </p>
           </div>
           <div
@@ -882,25 +884,67 @@
       crossorigin=""
     ></script>
     <script>
-      // Desplazamiento suave para los enlaces del menú
+      // Control de navegación y estados activos
+      const navLinks = document.querySelectorAll('header nav div.hidden a[href^="#"]');
+      const activeClasses = ['text-primary-container', 'border-b-4', 'border-secondary-container', 'pb-1'];
+      const inactiveClasses = ['text-on-surface-variant', 'hover:text-primary-container'];
+      let isManualScrolling = false;
+
+      function updateActiveLink(targetId) {
+        navLinks.forEach(link => {
+          if (link.getAttribute('href') === targetId) {
+            link.classList.add(...activeClasses);
+            link.classList.remove(...inactiveClasses);
+          } else {
+            link.classList.remove(...activeClasses);
+            link.classList.add(...inactiveClasses);
+          }
+        });
+      }
+
       document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         anchor.addEventListener("click", function (e) {
           e.preventDefault();
-          document.querySelector(this.getAttribute("href")).scrollIntoView({
-            behavior: "smooth",
-          });
+          const targetId = this.getAttribute("href");
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            isManualScrolling = true;
+            updateActiveLink(targetId);
+            targetElement.scrollIntoView({ behavior: "smooth" });
+            
+            // Desactivar el flag después de que termine la animación de scroll (aprox 1s)
+            clearTimeout(window.scrollFinished);
+            window.scrollFinished = setTimeout(() => {
+              isManualScrolling = false;
+            }, 1000);
+          }
         });
       });
+
+      // Intersection Observer para actualizar el menú automáticamente al hacer scroll
+      const observerOptions = { threshold: 0, rootMargin: "-30% 0px -60% 0px" };
+      const sections = document.querySelectorAll('section[id]');
+      const navObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          // Solo actualizamos si la sección está cruzando el umbral y NO estamos en scroll manual por click
+          if (entry.isIntersecting && !isManualScrolling) {
+            updateActiveLink(`#${entry.target.id}`);
+          }
+        });
+      }, observerOptions);
+
+      sections.forEach(section => navObserver.observe(section));
 
       // Efecto de sombra y padding en el Header al hacer scroll
       window.addEventListener("scroll", () => {
         const header = document.querySelector("header");
+        const nav = header.querySelector("nav");
         if (window.scrollY > 50) {
-          header.classList.add("py-2");
-          header.classList.remove("py-4");
+          nav.classList.add("h-16", "md:h-20");
+          nav.classList.remove("h-20", "md:h-28");
         } else {
-          header.classList.remove("py-2");
-          header.classList.add("py-4");
+          nav.classList.remove("h-16", "md:h-20");
+          nav.classList.add("h-20", "md:h-28");
         }
       });
 
@@ -909,7 +953,10 @@
       const ubicacionLng = -107.443665;
 
       // Inicialización del Mapa de Leaflet con la nueva vista
-      const map = L.map("map").setView([ubicacionLat, ubicacionLng], 16);
+      const map = L.map("map", {
+        scrollWheelZoom: false, 
+        attributionControl: false
+      }).setView([ubicacionLat, ubicacionLng], 16);
 
       // Capa visual del mapa (OpenStreetMap)
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
