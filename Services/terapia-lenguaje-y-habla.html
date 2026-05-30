@@ -1,0 +1,675 @@
+<!doctype html>
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Terapia de Lenguaje y Habla - Divertipedia</title>
+    <link rel="icon" type="image/png" href="../public/img/DivertiLogo.png" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-container": "#005a70",
+              "on-secondary-fixed-variant": "#004d61",
+              "surface-dim": "#e1d8d4",
+              background: "#fff8f5",
+              "secondary-fixed-dim": "#52d5ff",
+              "secondary-container": "#52d5ff",
+              "surface-container-lowest": "#ffffff",
+              primary: "#934b00",
+              "on-primary-container": "#5f2e00",
+              "primary-fixed-dim": "#ffb781",
+              "on-surface-variant": "#554337",
+              "on-secondary": "#ffffff",
+              "on-background": "#1e1b18",
+              "secondary-fixed": "#b8eaff",
+              "surface-container-low": "#fbf2ed",
+              secondary: "#006780",
+              "surface-tint": "#934b00",
+              "on-tertiary": "#ffffff",
+              "on-tertiary-fixed": "#0a2100",
+              "on-primary": "#ffffff",
+              "on-tertiary-container": "#22430c",
+              "on-primary-fixed-variant": "#703800",
+              "surface-container-high": "#efe6e2",
+              "error-container": "#ffdad6",
+              "surface-bright": "#fff8f5",
+              "outline-variant": "#dbc2b1",
+              "tertiary-fixed": "#c4efa5",
+              "inverse-primary": "#ffb781",
+              "surface-container": "#f5ece7",
+              "tertiary-fixed-dim": "#a9d38b",
+              outline: "#887365",
+              "on-error": "#ffffff",
+              error: "#ba1a1a",
+              "surface-variant": "#e9e1dc",
+              "surface-container-highest": "#e9e1dc",
+              surface: "#fff8f5",
+              "on-tertiary-fixed-variant": "#2d4f17",
+              "inverse-on-surface": "#f8efea",
+              "primary-fixed": "#ffdcc4",
+              tertiary: "#44682d",
+              "tertiary-container": "#89b16d",
+              "on-secondary-fixed": "#001f28",
+              "on-primary-fixed": "#301400",
+              "inverse-surface": "#34302c",
+              "primary-container": "#f28c33",
+              "on-surface": "#1e1b18",
+              "on-error-container": "#93000a",
+            },
+            borderRadius: {
+              DEFAULT: "1rem",
+              lg: "2rem",
+              xl: "3rem",
+              full: "9999px",
+            },
+            spacing: {
+              md: "24px",
+              "margin-mobile": "16px",
+              sm: "12px",
+              gutter: "20px",
+              base: "8px",
+              lg: "48px",
+              xs: "4px",
+              xl: "80px",
+              "margin-desktop": "64px",
+            },
+            fontFamily: {
+              "body-md": ["Quicksand"],
+              "headline-md": ["Quicksand"],
+              "body-lg": ["Quicksand"],
+              "headline-xl": ["Quicksand"],
+              "label-md": ["Quicksand"],
+              "headline-lg": ["Quicksand"],
+              "headline-lg-mobile": ["Quicksand"],
+            },
+            fontSize: {
+              "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+              "headline-md": [
+                "24px",
+                { lineHeight: "32px", fontWeight: "600" },
+              ],
+              "body-lg": ["18px", { lineHeight: "28px", fontWeight: "500" }],
+              "headline-xl": [
+                "48px",
+                {
+                  lineHeight: "56px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "700",
+                },
+              ],
+              "label-md": ["14px", { lineHeight: "20px", fontWeight: "600" }],
+              "headline-lg": [
+                "32px",
+                {
+                  lineHeight: "40px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "700",
+                },
+              ],
+              "headline-lg-mobile": [
+                "28px",
+                { lineHeight: "36px", fontWeight: "700" },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .squishy-hover {
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      .squishy-hover:hover {
+        transform: scale(1.05);
+      }
+      .soft-shadow {
+        box-shadow: 0 20px 40px -15px rgba(147, 75, 0, 0.1);
+      }
+      .organic-blob {
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+      }
+      .active-nav-border {
+        position: relative;
+      }
+      .active-nav-border::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: currentColor;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container"
+  >
+   <header
+      class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-md shadow-[0_10px_30px_rgba(147,75,0,0.08)]"
+    >
+      <nav
+        class="flex justify-between items-center h-20 md:h-28 px-margin-mobile md:px-margin-desktop max-w-[1280px] mx-auto transition-all duration-300"
+        aria-label="Main navigation"
+      >
+        <div class="flex items-center gap-2">
+          <img
+            alt="Divertipedia"
+            class="h-12 md:h-20 w-auto transition-all duration-300"
+            src="../public/img/DivertiLogo.png"
+          />
+        </div>
+        <div class="hidden md:flex items-center gap-8">
+          <a
+            class="text-on-surface-variant hover:text-primary-container transition-colors font-label-md"
+            href="../index.html#inicio"
+            >Inicio</a
+          >
+          <a
+            class="text-primary-container border-b-4 border-secondary-container pb-1 transition-all font-label-md"
+            href="../index.html#servicios"
+            >Servicios</a
+          >
+          <a
+            class="text-on-surface-variant hover:text-primary-container transition-colors font-label-md"
+            href="../index.html#galeria"
+            >Galería</a
+          >
+          <a
+            class="text-on-surface-variant hover:text-primary-container transition-colors font-label-md"
+            href="../index.html#testimonios"
+            >Testimonios</a
+          >
+        </div>
+        <a
+          href="https://wa.me/526673719847?text=¡Hola!%20Vengo%20de%20la%20página%20web%20y%20me%20gustaría%20recibir%20más%20información%20sobre%20Divertipedia."
+          target="_blank"
+          class="bg-primary-container text-on-primary px-8 py-3 rounded-full font-label-md font-bold shadow-pop hover:scale-105 active:scale-95 transition-all"
+        >
+          Contáctanos
+        </a>
+      </nav>
+    </header>
+    <main class="pt-24 overflow-x-hidden">
+      <!-- Hero Section -->
+      <section
+        class="relative px-6 md:px-margin-desktop py-xl max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-xl items-center"
+      >
+        <div class="order-2 md:order-1">
+          <span
+            class="inline-block px-4 py-1 rounded-full bg-tertiary-container text-on-tertiary-container font-label-md text-label-md mb-md"
+          >
+            Especialidad Destacada
+          </span>
+          <h1 class="font-headline-xl text-headline-xl text-on-surface mb-md">
+            Terapia de Lenguaje y Habla:
+            <span class="text-primary">Abriendo un Mundo de Comunicación</span>
+          </h1>
+          <p
+            class="text-body-lg font-body-lg text-on-surface-variant mb-lg leading-relaxed"
+          >
+            Programa enfocado en fortalecer la comunicación, comprensión y
+            expresión verbal en los peques mediante actividades lúdicas y
+            estrategias personalizadas.
+          </p>
+          <div class="flex flex-wrap gap-md">
+            <button
+              class="bg-primary text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-primary/20 squishy-hover active:scale-95 transition-all"
+            >
+              Empezar Ahora
+            </button>
+            <button
+              class="border-2 border-secondary text-secondary px-8 py-4 rounded-full font-bold squishy-hover active:scale-95 transition-all"
+            >
+              Ver Detalles
+            </button>
+          </div>
+        </div>
+        <div class="order-1 md:order-2 relative">
+          <div
+            class="absolute -inset-4 bg-secondary-container/20 organic-blob -z-10 animate-pulse"
+          ></div>
+          <div
+            class="relative overflow-hidden rounded-xl aspect-[4/3] shadow-2xl"
+          >
+            <img
+              alt="Terapia de Lenguaje"
+              class="w-full h-full object-cover"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTYHEnAt0WFMm7i8KrVUA-1asi9XfNzGBV-dHLoBaXMrCChr2iw2mnRm4b4R8HS-jgEj2SISI4uhN2TYx8NB0Z9fIzVpuN8t8bEKlV_aeQXaUsO5z0nfybwfiUpHxsk7jWDzPjb6WcmmrPBYvz4hMyr8BJYKHD4b2HITazG04zdbIgEkdWzlL8qEe7sJ3rgAmvGwt3-D5HcBNMyuIi99fBi5PKOYEiVc5lOq3NoXmrrp0YDn0D7PE_xJ_KXNqaMkbq_5oOyonZVZ5A"
+            />
+          </div>
+          <!-- Decor Elements -->
+          <div
+            class="absolute -bottom-6 -left-6 bg-tertiary-container p-4 rounded-lg shadow-lg hidden md:block"
+          >
+            <span
+              class="material-symbols-outlined text-on-tertiary-container text-4xl"
+              >child_care</span
+            >
+          </div>
+        </div>
+      </section>
+      <!-- Beneficios Clave (Bento Grid Inspired) -->
+      <section class="px-6 md:px-margin-desktop py-xl bg-surface-container-low">
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-xl">
+            <h2 class="font-headline-lg text-headline-lg text-on-surface">
+              Beneficios Clave
+            </h2>
+            <div class="h-1 w-24 bg-primary mx-auto mt-xs rounded-full"></div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+            <!-- Benefit 1 -->
+            <div
+              class="bg-surface-container-lowest p-xl rounded-lg soft-shadow border border-outline-variant/30 flex flex-col items-center text-center group hover:bg-secondary-container/10 transition-colors"
+            >
+              <div
+                class="w-16 h-16 bg-secondary-container rounded-full flex items-center justify-center mb-md group-hover:rotate-12 transition-transform"
+              >
+                <span
+                  class="material-symbols-outlined text-on-secondary-container text-3xl"
+                  >record_voice_over</span
+                >
+              </div>
+              <h3
+                class="font-headline-md text-headline-md text-on-surface mb-sm"
+              >
+                Comunicación Efectiva
+              </h3>
+              <p class="text-body-md font-body-md text-on-surface-variant">
+                Ayudamos a los niños a expresar sus ideas y sentimientos de
+                manera clara.
+              </p>
+            </div>
+            <!-- Benefit 2 -->
+            <div
+              class="bg-surface-container-lowest p-xl rounded-lg soft-shadow border border-outline-variant/30 flex flex-col items-center text-center group hover:bg-primary-container/10 transition-colors"
+            >
+              <div
+                class="w-16 h-16 bg-primary-container rounded-full flex items-center justify-center mb-md group-hover:-rotate-12 transition-transform"
+              >
+                <span
+                  class="material-symbols-outlined text-on-primary-container text-3xl"
+                  >psychology</span
+                >
+              </div>
+              <h3
+                class="font-headline-md text-headline-md text-on-surface mb-sm"
+              >
+                Comprensión Verbal
+              </h3>
+              <p class="text-body-md font-body-md text-on-surface-variant">
+                Fortalecemos la capacidad de entender y seguir instrucciones a
+                través del juego.
+              </p>
+            </div>
+            <!-- Benefit 3 -->
+            <div
+              class="bg-surface-container-lowest p-xl rounded-lg soft-shadow border border-outline-variant/30 flex flex-col items-center text-center group hover:bg-tertiary-container/10 transition-colors"
+            >
+              <div
+                class="w-16 h-16 bg-tertiary-container rounded-full flex items-center justify-center mb-md group-hover:scale-110 transition-transform"
+              >
+                <span
+                  class="material-symbols-outlined text-on-tertiary-container text-3xl"
+                  >sentiment_satisfied</span
+                >
+              </div>
+              <h3
+                class="font-headline-md text-headline-md text-on-surface mb-sm"
+              >
+                Confianza al Hablar
+              </h3>
+              <p class="text-body-md font-body-md text-on-surface-variant">
+                Creamos un ambiente seguro donde el error es parte del
+                aprendizaje y la expresión fluye naturalmente.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Nuestra Metodología (Step Process) -->
+      <section class="px-6 md:px-margin-desktop py-xl">
+        <div class="max-w-7xl mx-auto">
+          <div class="flex flex-col md:flex-row gap-xl items-center mb-xl">
+            <div class="flex-1">
+              <h2
+                class="font-headline-lg text-headline-lg text-on-surface mb-md"
+              >
+                Nuestra Metodología
+              </h2>
+              <p class="text-body-lg font-body-lg text-on-surface-variant">
+                Un enfoque estructurado pero flexible que pone al niño en el
+                centro de cada etapa.
+              </p>
+            </div>
+            <div class="hidden md:block w-1/3">
+              <img
+                alt="Metodología"
+                class="rounded-xl shadow-lg w-full aspect-video object-cover"
+                data-alt="A cheerful, brightly colored educational space with wooden furniture and diverse learning materials. The atmosphere is warm and inviting, illuminated by natural sunlight streaming through large windows, creating a cozy environment for children. Soft pastel tones of orange, blue, and green dominate the scene, reflecting a modern and professional pediatric therapy center's aesthetic."
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyLQIMiQHYeotfYUMVQfV07oOpJjvJjwOe5JIqASA2ZyQIx4Q14QajM91GSdrQdTHSVm2sRxBWpa74lPcRpuiLhKeOSkdPw45xVuP2idq24y_AusKNqHTvzPNSz_VmzvKFtkmAQZ5EgvRQdIR9MTxNqqgfAG_4o4fSh9iOgFe--3Gl1p13_oI2j5jGkPTbnuYZ3k7N0b0-mP7bh8y-PjT4AtlEGz2exLSJsLfgxA4tJpaM5qg0jAAqlQE3AxwSAzfPo9s3_DfLVsfX"
+              />
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-md">
+            <!-- Step 1 -->
+            <div class="relative p-md rounded-lg bg-surface-container-low">
+              <div
+                class="absolute -top-4 -left-4 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-lg shadow-md"
+              >
+                1
+              </div>
+              <h4
+                class="font-headline-md text-headline-md text-primary mb-xs mt-4"
+              >
+                Evaluación Inicial
+              </h4>
+              <p class="text-body-md font-body-md text-on-surface-variant">
+                Identificamos las fortalezas y áreas de oportunidad únicas de
+                cada peque.
+              </p>
+            </div>
+            <!-- Step 2 -->
+            <div class="relative p-md rounded-lg bg-surface-container-low">
+              <div
+                class="absolute -top-4 -left-4 w-12 h-12 bg-secondary text-white rounded-full flex items-center justify-center font-bold text-lg shadow-md"
+              >
+                2
+              </div>
+              <h4
+                class="font-headline-md text-headline-md text-secondary mb-xs mt-4"
+              >
+                Plan Personalizado
+              </h4>
+              <p class="text-body-md font-body-md text-on-surface-variant">
+                Diseñamos una ruta terapéutica con objetivos claros y
+                alcanzables.
+              </p>
+            </div>
+            <!-- Step 3 -->
+            <div
+              class="relative p-md rounded-lg bg-surface-container-low border-2 border-primary-container"
+            >
+              <div
+                class="absolute -top-4 -left-4 w-12 h-12 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center font-bold text-lg shadow-md"
+              >
+                3
+              </div>
+              <h4
+                class="font-headline-md text-headline-md text-on-primary-container mb-xs mt-4"
+              >
+                Sesiones Dinámicas
+              </h4>
+              <p class="text-body-md font-body-md text-on-surface-variant">
+                Aprendizaje a través del juego, tarjetas visuales y cuentos
+                interactivos.
+              </p>
+            </div>
+            <!-- Step 4 -->
+            <div class="relative p-md rounded-lg bg-surface-container-low">
+              <div
+                class="absolute -top-4 -left-4 w-12 h-12 bg-tertiary text-white rounded-full flex items-center justify-center font-bold text-lg shadow-md"
+              >
+                4
+              </div>
+              <h4
+                class="font-headline-md text-headline-md text-tertiary mb-xs mt-4"
+              >
+                Seguimiento
+              </h4>
+              <p class="text-body-md font-body-md text-on-surface-variant">
+                Monitoreo constante del progreso y comunicación con la familia.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- CTA Section -->
+      <section class="px-6 md:px-margin-desktop py-xl mb-xl">
+        <div
+          class="max-w-5xl mx-auto bg-primary text-white rounded-xl p-xl relative overflow-hidden text-center shadow-xl"
+        >
+          <div
+            class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none"
+          >
+            <div
+              class="absolute -top-24 -left-24 w-64 h-64 bg-white organic-blob"
+            ></div>
+            <div
+              class="absolute -bottom-24 -right-24 w-64 h-64 bg-white organic-blob"
+            ></div>
+          </div>
+          <h2 class="font-headline-xl text-headline-xl mb-md relative z-10">
+            ¿Listos para fortalecer su voz?
+          </h2>
+          <p
+            class="text-body-lg font-body-lg opacity-90 mb-xl max-w-2xl mx-auto relative z-10"
+          >
+            Agenda una valoración inicial hoy mismo y descubre cómo podemos
+            ayudar a tu hijo a comunicarse con el mundo con seguridad.
+          </p>
+          <button
+            class="bg-white text-primary px-12 py-5 rounded-full font-bold text-lg squishy-hover shadow-lg active:scale-95 transition-all relative z-10"
+          >
+            Agendar Valoración
+          </button>
+        </div>
+      </section>
+    </main>
+    <!-- Footer -->
+     <footer
+      class="bg-surface-container-low border-t border-outline-variant/30 rounded-t-lg"
+    >
+      <div
+        class="w-full pt-[120px] pb-section-gap px-margin-mobile md:px-margin-desktop max-w-[1280px] mx-auto flex flex-col md:flex-row justify-between items-start gap-gutter"
+      >
+        <div class="max-w-xs space-y-6">
+          <div class="flex items-center gap-2">
+            <img
+              alt="Divertipedia Logo"
+              class="h-10"
+              src="../public/img/DivertiLogo.png"
+            />
+            <span class="font-headline-md text-primary font-bold"
+              >Divertipedia</span
+            >
+          </div>
+          <p class="font-body-md text-on-surface-variant">
+            Transformando el aprendizaje en una aventura inolvidable para los
+            peques.
+          </p>
+          <div class="flex gap-4">
+            <a
+              class="w-10 h-10 bg-primary-container/10 rounded-full flex items-center justify-center text-primary-container hover:bg-primary-container hover:text-white transition-all"
+              href="https://www.facebook.com/share/18Xf3VZ1Dm/?mibextid=wwXIfr"
+            >
+              <svg class="w-5 h-5 fill-current" viewbox="0 0 24 24">
+                <path
+                  d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                ></path>
+              </svg>
+            </a>
+            <a
+              class="w-10 h-10 bg-primary-container/10 rounded-full flex items-center justify-center text-primary-container hover:bg-primary-container hover:text-white transition-all"
+              href="https://www.instagram.com/divertipedia_cln?igsh=MWYyemV1NWo4c2poaw=="
+            >
+              <svg class="w-5 h-5 fill-current" viewbox="0 0 24 24">
+                <path
+                  d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.266.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.848 0-3.204.012-3.584.07-4.849.149-3.249 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                ></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <p class="font-headline-md text-primary">Explora</p>
+          <nav class="flex flex-col gap-2">
+            <a
+              class="text-on-surface-variant hover:text-primary-container hover:underline transition-colors"
+              href="../index.html#inicio"
+              >Inicio</a
+            >
+            <a
+              class="text-on-surface-variant hover:text-primary-container hover:underline transition-colors"
+              href="../index.html#servicios"
+              >Servicios</a
+            >
+            <a
+              class="text-on-surface-variant hover:text-primary-container hover:underline transition-colors"
+              href="../index.html#galeria"
+              >Galería</a
+            >
+            <a
+              class="text-on-surface-variant hover:text-primary-container hover:underline transition-colors"
+              href="../index.html#testimonios"
+              >Testimonios</a
+            >
+          </nav>
+        </div>
+        <div class="space-y-4">
+          <p class="font-headline-md text-primary">Contacto</p>
+          <div class="space-y-3 font-body-md text-on-surface-variant">
+            <div class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-secondary"
+                >location_on</span
+              >
+              <span
+                >Camalotes 4825, Fracc. Bonaterra, 80058 Culiacán Rosales,
+                Sin.</span
+              >
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-secondary"
+                >schedule</span
+              >
+              <span>Lun - Vie: 8am - 7pm<br />Sáb: 9am - 2pm</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-secondary"
+                >phone</span
+              >
+              <span>(667) 371 9847</span>
+            </div>
+          </div>
+        </div>
+        <div
+          id="map"
+          class="z-0 w-full md:w-[400px] h-80 rounded-lg border border-outline-variant/30 shadow-md"
+        ></div>
+      </div>
+      <div
+        class="w-full py-8 border-t border-outline-variant/10 text-center px-margin-mobile"
+      >
+        <p class="font-label-md text-on-surface-variant/70">
+          © 2026 Divertipedia Centro Infantil. Culiacán, Sinaloa. Todos los
+          derechos reservados.
+        </p>
+      </div>
+    </footer>
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script>
+      // Coordenadas de Divertipedia (Camalotes, Fracc. Bonaterra, Culiacán)
+      const ubicacionLat = 24.821846;
+      const ubicacionLng = -107.443665;
+
+      // Inicialización del Mapa
+      const map = L.map("map", {
+        scrollWheelZoom: false, // Opcional: evita zoom accidental al hacer scroll
+        attributionControl: false,
+      }).setView([ubicacionLat, ubicacionLng], 16);
+
+      // Capa visual (OpenStreetMap)
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors",
+      }).addTo(map);
+
+      // Marcador personalizado
+      L.marker([ubicacionLat, ubicacionLng])
+        .addTo(map)
+        .bindPopup(
+          `
+            <div style="text-align: center; font-family: 'Quicksand', sans-serif;">
+                <b style="color: #934b00; font-size: 16px;">Divertipedia</b><br>
+                <span style="color: #554337; font-size: 14px;">Camalotes 4825, Fracc. Bonaterra</span><br>
+                <span style="color: #554337; font-size: 12px;">C.P. 80058, Culiacán, Sin.</span><br>
+                <br><b>¡Visítanos pronto!</b>
+            </div>
+        `,
+        )
+        .openPopup();
+
+      // Invalidar tamaño para corregir renderizado en contenedores dinámicos
+      setTimeout(() => {
+        map.invalidateSize();
+      }, 500);
+    </script>
+    <script>
+      // Micro-interaction for smooth scrolling or hover effects
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+          });
+        });
+      });
+
+      // Add visual feedback to buttons on click
+      const buttons = document.querySelectorAll("button");
+      buttons.forEach((btn) => {
+        btn.addEventListener("mousedown", () => btn.classList.add("scale-95"));
+        btn.addEventListener("mouseup", () => btn.classList.remove("scale-95"));
+        btn.addEventListener("mouseleave", () =>
+          btn.classList.remove("scale-95"),
+        );
+      });
+    </script>
+     <!-- Botón Flotante de WhatsApp -->
+    <a
+      href="https://wa.me/526673719847?text=¡Hola!%20Vengo%20de%20la%20página%20web%20y%20me%20gustaría%20recibir%20más%20información%20sobre%20Divertipedia."
+      target="_blank"
+      rel="noopener noreferrer"
+      class="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[60] bg-[#25D366] text-white w-16 h-16 rounded-full flex items-center justify-center shadow-[0_10px_25px_rgba(37,211,102,0.3)] hover:scale-110 active:scale-95 transition-all group"
+      aria-label="Contactar por WhatsApp"
+    >
+      <svg class="w-9 h-9 fill-current" viewBox="0 0 24 24">
+        <path
+          d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"
+        />
+      </svg>
+      <span
+        class="absolute right-full mr-4 bg-surface text-primary font-bold px-4 py-2 rounded-lg shadow-xl whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-4 group-hover:translate-x-0 pointer-events-none hidden md:block border border-primary/10"
+      >
+        ¿Tienes dudas? ¡Escríbenos!
+      </span>
+    </a>
+  </body>
+</html>

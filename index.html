@@ -249,8 +249,8 @@
             </h1>
             <p class="font-body-lg text-body-lg text-on-surface-variant">
               Descubre un espacio diseñado para potenciar las habilidades
-              cognitivas y sociales de tus peques a través del juego dinámico
-              y la exploración creativa.
+              cognitivas y sociales de tus peques a través del juego dinámico y
+              la exploración creativa.
             </p>
             <div class="flex flex-wrap gap-4">
               <a
@@ -386,42 +386,49 @@
               </p>
             </div>
           </a>
-          <div
-            class="bg-white p-8 rounded-lg shadow-sm hover:shadow-xl transition-all squishy-hover border border-outline-variant/20 group"
-          >
+          <a href="Services/terapia-lenguaje-y-habla.html">
             <div
-              class="w-16 h-16 bg-secondary-container/20 text-secondary rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-sm"
+              class="bg-white p-8 rounded-lg shadow-sm hover:shadow-xl transition-all squishy-hover border border-outline-variant/20 group"
             >
-              <span class="material-symbols-outlined text-[32px]"
-                >child_care</span
+              <div
+                class="w-16 h-16 bg-secondary-container/20 text-secondary rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-sm"
               >
+                <span class="material-symbols-outlined text-[32px]"
+                  >child_care</span
+                >
+              </div>
+              <h3 class="font-headline-md text-headline-md mb-4">
+                Terapia de Lenguaje y Habla
+              </h3>
+              <p class="text-on-surface-variant">
+                Programa enfocado en fortalecer la comunicación, comprensión y
+                expresión verbal en los peques mediante actividades lúdicas y
+                estrategias personalizadas.
+              </p>
             </div>
-            <h3 class="font-headline-md text-headline-md mb-4">
-              Terapia de Lenguaje y Habla
-            </h3>
-            <p class="text-on-surface-variant">
-              Programa enfocado en fortalecer la comunicación, comprensión y
-              expresión verbal en los peques mediante actividades lúdicas y
-              estrategias personalizadas.
-            </p>
-          </div>
-          <div
-            class="bg-white p-8 rounded-lg shadow-sm hover:shadow-xl transition-all squishy-hover border border-outline-variant/20 group"
-          >
+          </a>
+          <a href="Services/terapia-emocional.html">
             <div
-              class="w-16 h-16 bg-tertiary-fixed text-tertiary rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"
+              class="bg-white p-8 rounded-lg shadow-sm hover:shadow-xl transition-all squishy-hover border border-outline-variant/20 group"
             >
-              <span class="material-symbols-outlined text-[32px]">school</span>
+              <div
+                class="w-16 h-16 bg-tertiary-fixed text-tertiary rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"
+              >
+                <span class="material-symbols-outlined text-[32px]"
+                  >school</span
+                >
+              </div>
+              <h3 class="font-headline-md text-headline-md mb-4">
+                Terapia Emocional
+              </h3>
+              <p class="text-on-surface-variant">
+                Espacio terapéutico diseñado para acompañar a los peques en el
+                reconocimiento, expresión y manejo saludable de sus emociones
+                mediante el juego y actividades significativas.
+              </p>
             </div>
-            <h3 class="font-headline-md text-headline-md mb-4">
-              Terapia Emocional
-            </h3>
-            <p class="text-on-surface-variant">
-              Espacio terapéutico diseñado para acompañar a los peques en el
-              reconocimiento, expresión y manejo saludable de sus emociones
-              mediante el juego y actividades significativas.
-            </p>
-          </div>
+          </a>
+
           <div
             class="bg-white p-8 rounded-lg shadow-sm hover:shadow-xl transition-all squishy-hover border border-outline-variant/20 group"
           >
@@ -574,7 +581,7 @@
           </p>
         </div>
         <div
-          class="px-margin-mobile md:px-margin-desktop max-w-[1280px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-4"
+          class="px-margin-mobile md:px-margin-desktop max-w-[1280px] mx-auto grid grid-cols-2 md:grid-cols-4 md:grid-rows-2 md:h-[600px] gap-4"
         >
           <div class="col-span-2 row-span-2 group overflow-hidden rounded-lg">
             <img
@@ -583,24 +590,26 @@
               src="public/img/Galeria1.jpg"
             />
           </div>
-          <div class="group overflow-hidden rounded-lg">
+          <div class="group overflow-hidden rounded-lg h-64 md:h-auto">
             <img
               alt="Galería 2"
-              class="w-full h-[250px] object-cover transition-transform duration-700 group-hover:scale-110"
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               src="public/img/Galeria2.jpg"
             />
           </div>
-          <div class="group overflow-hidden rounded-lg">
+          <div class="group overflow-hidden rounded-lg h-64 md:h-auto">
             <img
               alt="Galería 3"
-              class="w-full h-[250px] object-cover transition-transform duration-700 group-hover:scale-110"
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               src="public/img/Galeria3.jpg"
             />
           </div>
-          <div class="col-span-2 group overflow-hidden rounded-lg">
+          <div
+            class="col-span-2 group overflow-hidden rounded-lg h-64 md:h-auto"
+          >
             <img
               alt="Galería 4"
-              class="w-full h-[300px] object-cover transition-transform duration-700 group-hover:scale-110"
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               src="public/img/Galeria4.jpg"
             />
           </div>
@@ -885,14 +894,24 @@
     ></script>
     <script>
       // Control de navegación y estados activos
-      const navLinks = document.querySelectorAll('header nav div.hidden a[href^="#"]');
-      const activeClasses = ['text-primary-container', 'border-b-4', 'border-secondary-container', 'pb-1'];
-      const inactiveClasses = ['text-on-surface-variant', 'hover:text-primary-container'];
+      const navLinks = document.querySelectorAll(
+        'header nav div.hidden a[href^="#"]',
+      );
+      const activeClasses = [
+        "text-primary-container",
+        "border-b-4",
+        "border-secondary-container",
+        "pb-1",
+      ];
+      const inactiveClasses = [
+        "text-on-surface-variant",
+        "hover:text-primary-container",
+      ];
       let isManualScrolling = false;
 
       function updateActiveLink(targetId) {
-        navLinks.forEach(link => {
-          if (link.getAttribute('href') === targetId) {
+        navLinks.forEach((link) => {
+          if (link.getAttribute("href") === targetId) {
             link.classList.add(...activeClasses);
             link.classList.remove(...inactiveClasses);
           } else {
@@ -911,7 +930,7 @@
             isManualScrolling = true;
             updateActiveLink(targetId);
             targetElement.scrollIntoView({ behavior: "smooth" });
-            
+
             // Desactivar el flag después de que termine la animación de scroll (aprox 1s)
             clearTimeout(window.scrollFinished);
             window.scrollFinished = setTimeout(() => {
@@ -923,9 +942,9 @@
 
       // Intersection Observer para actualizar el menú automáticamente al hacer scroll
       const observerOptions = { threshold: 0, rootMargin: "-30% 0px -60% 0px" };
-      const sections = document.querySelectorAll('section[id]');
+      const sections = document.querySelectorAll("section[id]");
       const navObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
           // Solo actualizamos si la sección está cruzando el umbral y NO estamos en scroll manual por click
           if (entry.isIntersecting && !isManualScrolling) {
             updateActiveLink(`#${entry.target.id}`);
@@ -933,7 +952,7 @@
         });
       }, observerOptions);
 
-      sections.forEach(section => navObserver.observe(section));
+      sections.forEach((section) => navObserver.observe(section));
 
       // Efecto de sombra y padding en el Header al hacer scroll
       window.addEventListener("scroll", () => {
@@ -954,8 +973,8 @@
 
       // Inicialización del Mapa de Leaflet con la nueva vista
       const map = L.map("map", {
-        scrollWheelZoom: false, 
-        attributionControl: false
+        scrollWheelZoom: false,
+        attributionControl: false,
       }).setView([ubicacionLat, ubicacionLng], 16);
 
       // Capa visual del mapa (OpenStreetMap)
