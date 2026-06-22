@@ -560,6 +560,7 @@
               alt="Divertipedia Logo"
               class="h-10"
               src="../public/img/DivertiLogo.png"
+              loading="lazy"
             />
             <span class="font-headline-md text-primary font-bold"
               >Divertipedia</span
@@ -667,40 +668,59 @@
       crossorigin=""
     ></script>
     <script>
+      // --- INICIO CÓDIGO LAZY LOAD PARA LEAFLET MAP ---
       // Coordenadas de Divertipedia (Camalotes, Fracc. Bonaterra, Culiacán)
       const ubicacionLat = 24.821846;
       const ubicacionLng = -107.443665;
 
-      // Inicialización del Mapa
-      const map = L.map("map", {
-        scrollWheelZoom: false, // Opcional: evita zoom accidental al hacer scroll
-        attributionControl: false,
-      }).setView([ubicacionLat, ubicacionLng], 16);
+      function inicializarMapa() {
+        // Inicialización del Mapa
+        const map = L.map("map", {
+          scrollWheelZoom: false, // Opcional: evita zoom accidental al hacer scroll
+          attributionControl: false,
+        }).setView([ubicacionLat, ubicacionLng], 16);
 
-      // Capa visual (OpenStreetMap)
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "© OpenStreetMap contributors",
-      }).addTo(map);
+        // Capa visual (OpenStreetMap)
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution: "© OpenStreetMap contributors",
+        }).addTo(map);
 
-      // Marcador personalizado
-      L.marker([ubicacionLat, ubicacionLng])
-        .addTo(map)
-        .bindPopup(
-          `
-            <div style="text-align: center; font-family: 'Quicksand', sans-serif;">
-                <b style="color: #934b00; font-size: 16px;">Divertipedia</b><br>
-                <span style="color: #554337; font-size: 14px;">Camalotes 4825, Fracc. Bonaterra</span><br>
-                <span style="color: #554337; font-size: 12px;">C.P. 80058, Culiacán, Sin.</span><br>
-                <br><b>¡Visítanos pronto!</b>
-            </div>
-        `,
-        )
-        .openPopup();
+        // Marcador personalizado
+        L.marker([ubicacionLat, ubicacionLng])
+          .addTo(map)
+          .bindPopup(
+            `
+              <div style="text-align: center; font-family: 'Quicksand', sans-serif;">
+                  <b style="color: #934b00; font-size: 16px;">Divertipedia</b><br>
+                  <span style="color: #554337; font-size: 14px;">Camalotes 4825, Fracc. Bonaterra</span><br>
+                  <span style="color: #554337; font-size: 12px;">C.P. 80058, Culiacán, Sin.</span><br>
+                  <br><b>¡Visítanos pronto!</b>
+              </div>
+          `,
+          )
+          .openPopup();
 
-      // Invalidar tamaño para corregir renderizado en contenedores dinámicos
-      setTimeout(() => {
-        map.invalidateSize();
-      }, 500);
+        // Invalidar tamaño para corregir renderizado en contenedores dinámicos
+        setTimeout(() => {
+          map.invalidateSize();
+        }, 500);
+      }
+
+      // Observador para cargar el mapa SOLO cuando el contenedor sea visible
+      const mapContainer = document.getElementById("map");
+      const mapObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            inicializarMapa();
+            observer.disconnect(); // Dejar de observar una vez cargado
+          }
+        });
+      }, { rootMargin: "100px" }); // Empieza a cargar 100px antes de que aparezca en pantalla
+
+      if (mapContainer) {
+        mapObserver.observe(mapContainer);
+      }
+      // --- FIN CÓDIGO LAZY LOAD PARA LEAFLET MAP ---
     </script>
     <script>
       // Efecto de encogimiento del Header al hacer scroll
@@ -717,18 +737,18 @@
       });
 
       // Smooth reveal on scroll interaction
-      const observerOptions = {
+      const observerOptionsAnim = {
         threshold: 0.1,
       };
 
-      const observer = new IntersectionObserver((entries) => {
+      const scrollObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("opacity-100", "translate-y-0");
             entry.target.classList.remove("opacity-0", "translate-y-10");
           }
         });
-      }, observerOptions);
+      }, observerOptionsAnim);
 
       document.querySelectorAll("section > div").forEach((el) => {
         el.classList.add(
@@ -737,7 +757,7 @@
           "opacity-0",
           "translate-y-10",
         );
-        observer.observe(el);
+        scrollObserver.observe(el);
       });
     </script>
     <a

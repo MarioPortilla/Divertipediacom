@@ -213,7 +213,7 @@
         class="flex justify-between items-center h-20 md:h-28 px-margin-mobile md:px-margin-desktop max-w-[1280px] mx-auto transition-all duration-300"
         aria-label="Main navigation"
       >
-       <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2">
           <a href="../index.html#inicio">
             <img
               alt="Divertipedia"
@@ -400,6 +400,7 @@
                 alt="Materiales para terapia emocional y psicológica infantil en Culiacán"
                 class="w-32 h-32 opacity-20 transform -rotate-12"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6PE4eIf94DrbeoFinN8w8RQgpmJGwnUvUvjNqnqfYQjJGpywDxBukx8b4fV9qa8yTyCnXU-d5SUoH_pwJnrSjnA4Nkbilx9F8RmQbnnPbFJNTaVKILbxztXKXKDv5qQIKpccXRkwtR03untpOq1F5-RSX_mqHSCgMOgNINreb1vOp9Quhl3_NTaZ4_zfEAb5O3_7B3iS6Hst0Fcc27hb_v4h64JT1B3dbjYriPulCZz28gHOGidhr53CsgqESERDvMWIv9ZKgPzBP"
+                loading="lazy"
               />
             </div>
           </div>
@@ -545,6 +546,7 @@
               alt="Divertipedia Logo"
               class="h-10"
               src="../public/img/DivertiLogo.png"
+              loading="lazy"
             />
             <span class="font-headline-md text-primary font-bold"
               >Divertipedia</span
@@ -652,40 +654,59 @@
       crossorigin=""
     ></script>
     <script>
+      // --- INICIO CÓDIGO LAZY LOAD PARA LEAFLET MAP ---
       // Coordenadas de Divertipedia (Camalotes, Fracc. Bonaterra, Culiacán)
       const ubicacionLat = 24.821846;
       const ubicacionLng = -107.443665;
 
-      // Inicialización del Mapa
-      const map = L.map("map", {
-        scrollWheelZoom: false, // Opcional: evita zoom accidental al hacer scroll
-        attributionControl: false,
-      }).setView([ubicacionLat, ubicacionLng], 16);
+      function inicializarMapa() {
+        // Inicialización del Mapa
+        const map = L.map("map", {
+          scrollWheelZoom: false, // Opcional: evita zoom accidental al hacer scroll
+          attributionControl: false,
+        }).setView([ubicacionLat, ubicacionLng], 16);
 
-      // Capa visual (OpenStreetMap)
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "© OpenStreetMap contributors",
-      }).addTo(map);
+        // Capa visual (OpenStreetMap)
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution: "© OpenStreetMap contributors",
+        }).addTo(map);
 
-      // Marcador personalizado
-      L.marker([ubicacionLat, ubicacionLng])
-        .addTo(map)
-        .bindPopup(
-          `
-            <div style="text-align: center; font-family: 'Quicksand', sans-serif;">
-                <b style="color: #934b00; font-size: 16px;">Divertipedia</b><br>
-                <span style="color: #554337; font-size: 14px;">Camalotes 4825, Fracc. Bonaterra</span><br>
-                <span style="color: #554337; font-size: 12px;">C.P. 80058, Culiacán, Sin.</span><br>
-                <br><b>¡Visítanos pronto!</b>
-            </div>
-        `,
-        )
-        .openPopup();
+        // Marcador personalizado
+        L.marker([ubicacionLat, ubicacionLng])
+          .addTo(map)
+          .bindPopup(
+            `
+              <div style="text-align: center; font-family: 'Quicksand', sans-serif;">
+                  <b style="color: #934b00; font-size: 16px;">Divertipedia</b><br>
+                  <span style="color: #554337; font-size: 14px;">Camalotes 4825, Fracc. Bonaterra</span><br>
+                  <span style="color: #554337; font-size: 12px;">C.P. 80058, Culiacán, Sin.</span><br>
+                  <br><b>¡Visítanos pronto!</b>
+              </div>
+          `,
+          )
+          .openPopup();
 
-      // Invalidar tamaño para corregir renderizado en contenedores dinámicos
-      setTimeout(() => {
-        map.invalidateSize();
-      }, 500);
+        // Invalidar tamaño para corregir renderizado en contenedores dinámicos
+        setTimeout(() => {
+          map.invalidateSize();
+        }, 500);
+      }
+
+      // Observador para cargar el mapa SOLO cuando el contenedor sea visible
+      const mapContainer = document.getElementById("map");
+      const mapObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            inicializarMapa();
+            observer.disconnect(); // Dejar de observar una vez cargado
+          }
+        });
+      }, { rootMargin: "100px" }); // Empieza a cargar 100px antes de que aparezca en pantalla
+
+      if (mapContainer) {
+        mapObserver.observe(mapContainer);
+      }
+      // --- FIN CÓDIGO LAZY LOAD PARA LEAFLET MAP ---
     </script>
     <script>
       // Simple scroll reveal effect for methodology steps
@@ -710,6 +731,20 @@
           "translate-y-10",
         );
         observer.observe(el);
+      });
+    </script>
+    <script>
+      // Efecto de encogimiento del Header al hacer scroll
+      window.addEventListener("scroll", () => {
+        const header = document.querySelector("header");
+        const nav = header.querySelector("nav");
+        if (window.scrollY > 50) {
+          nav.classList.add("h-16", "md:h-20");
+          nav.classList.remove("h-20", "md:h-28");
+        } else {
+          nav.classList.remove("h-16", "md:h-20");
+          nav.classList.add("h-20", "md:h-28");
+        }
       });
     </script>
     <a

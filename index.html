@@ -342,6 +342,7 @@
                 alt="Nuestra Misión"
                 class="rounded-lg w-full h-[400px] object-cover"
                 src="public/img/DivertiHistoria.jpg"
+                loading="lazy"
               />
               <div
                 class="absolute -bottom-6 -right-6 bg-tertiary-container text-on-tertiary-container p-6 rounded-lg shadow-xl max-w-[200px]"
@@ -451,7 +452,7 @@
               <p class="text-on-surface-variant">
                 Programa enfocado en fortalecer la comunicación, comprensión y
                 expresión verbal en los peques mediante actividades lúdicas y
-                estrategias personalizadas.
+                estrategías personalizadas.
               </p>
             </div>
           </a>
@@ -536,9 +537,8 @@
               sensorial, conductual y de lenguaje.
             </p>
           </div>
-        </div>
           </a>
-
+        </div>
       </section>
       <section
         class="py-section-gap px-margin-mobile md:px-margin-desktop max-w-[1280px] mx-auto overflow-hidden"
@@ -640,6 +640,7 @@
               alt="Instalaciones de Divertipedia centro integral infantil en Culiacán"
               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               src="public/img/Galeria1.jpg"
+              loading="lazy"
             />
           </div>
           <div class="group overflow-hidden rounded-lg h-64 md:h-auto">
@@ -647,6 +648,7 @@
               alt="Niño en sesión de terapia de lenguaje y habla lúdica"
               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               src="public/img/Galeria2.jpg"
+              loading="lazy"
             />
           </div>
           <div class="group overflow-hidden rounded-lg h-64 md:h-auto">
@@ -654,6 +656,7 @@
               alt="Actividades de integración sensorial y psicomotricidad"
               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               src="public/img/Galeria3.jpg"
+              loading="lazy"
             />
           </div>
           <div
@@ -663,6 +666,7 @@
               alt="Peques en el programa Prekinder KREA enfoque Montessori"
               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               src="public/img/Galeria4.jpg"
+              loading="lazy"
             />
           </div>
         </div>
@@ -710,6 +714,7 @@
                     alt="Avatar"
                     class="w-full h-full object-cover"
                     src="public/img/Avatar1.png"
+                    loading="lazy"
                   />
                 </div>
                 <div>
@@ -745,6 +750,7 @@
                     alt="Avatar"
                     class="w-full h-full object-cover"
                     src="public/img/Avatar2.png"
+                    loading="lazy"
                   />
                 </div>
                 <div>
@@ -780,6 +786,7 @@
                     alt="Avatar"
                     class="w-full h-full object-cover"
                     src="public/img/Avatar3.png"
+                    loading="lazy"
                   />
                 </div>
                 <div>
@@ -836,6 +843,7 @@
               alt="Divertipedia Logo"
               class="h-10"
               src="public/img/DivertiLogo.png"
+              loading="lazy"
             />
             <span class="font-headline-md text-primary font-bold"
               >Divertipedia</span
@@ -1017,35 +1025,48 @@
         }
       });
 
-      // NUEVAS COORDENADAS (Calle Camalotes, Fracc. Bonaterra, Culiacán)
+      // --- INICIO CÓDIGO LAZY LOAD PARA LEAFLET MAP ---
       const ubicacionLat = 24.821846;
       const ubicacionLng = -107.443665;
 
-      // Inicialización del Mapa de Leaflet con la nueva vista
-      const map = L.map("map", {
-        scrollWheelZoom: false,
-        attributionControl: false,
-      }).setView([ubicacionLat, ubicacionLng], 16);
+      // Función para inicializar el mapa
+      function inicializarMapa() {
+        const map = L.map("map", {
+          scrollWheelZoom: false,
+          attributionControl: false,
+        }).setView([ubicacionLat, ubicacionLng], 16);
 
-      // Capa visual del mapa (OpenStreetMap)
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "&copy; OpenStreetMap contributors",
-      }).addTo(map);
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution: "&copy; OpenStreetMap contributors",
+        }).addTo(map);
 
-      // Marcador con los datos extraídos de image_05bdc7.jpg
-      L.marker([ubicacionLat, ubicacionLng])
-        .addTo(map)
-        .bindPopup(
-          `
+        L.marker([ubicacionLat, ubicacionLng])
+          .addTo(map)
+          .bindPopup(`
             <div style="text-align: center; font-family: 'Quicksand', sans-serif;">
                 <b style="color: #934b00; font-size: 16px;">Divertipedia</b><br>
                 <span style="color: #554337; font-size: 14px;">Camalotes 4825, Fracc. Bonaterra</span><br>
                 <span style="color: #554337; font-size: 12px;">C.P. 80058, Culiacán, Sin.</span><br>
                 <br><b>¡Visítanos pronto!</b>
             </div>
-        `,
-        )
-        .openPopup();
+          `).openPopup();
+      }
+
+      // Observador para cargar el mapa SOLO cuando el contenedor sea visible
+      const mapContainer = document.getElementById("map");
+      const mapObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            inicializarMapa();
+            observer.disconnect(); // Dejar de observar una vez cargado
+          }
+        });
+      }, { rootMargin: "100px" }); // Empieza a cargar 100px antes de que aparezca en pantalla
+
+      if (mapContainer) {
+        mapObserver.observe(mapContainer);
+      }
+      // --- FIN CÓDIGO LAZY LOAD PARA LEAFLET MAP ---
     </script>
 
     <a
