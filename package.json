@@ -1,0 +1,19 @@
+{
+  "name": "divertipediacom",
+  "version": "1.0.0",
+  "description": "![Divertipedia Logo](public/img/DivertiLogo.png) Divertipedia es una Landing Page para un Centro Integral Infantil enfocado en potenciar las habilidades cognitivas y sociales de los más pequeños a través del juego dinámico, la exploración creativa y un enfoque pedagógico personalizado.",
+  "main": "index.js",
+"scripts": {
+    "init-tw": "npx tailwindcss init",
+    "dev": "npx tailwindcss -i ./src/input.css -o ./public/css/style.css --watch",
+    "build": "npx tailwindcss -i ./src/input.css -o ./public/css/style.css --minify"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@tailwindcss/forms": "^0.5.11",
+    "tailwindcss": "^4.3.1"
+  }
+}

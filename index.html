@@ -21,7 +21,7 @@
     <meta property="twitter:image" content="https://divertipedia.com/public/img/DivertiLogo.webp" />
 
     <link rel="icon" type="image/webp" href="public/img/DivertiLogo.webp" />
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="stylesheet" href="./public/css/style.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
@@ -36,149 +36,6 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-25..0&display=swap"
       rel="stylesheet"
     />
-    <script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              "outline-variant": "#dbc2b1",
-              primary: "#934b00",
-              "on-surface": "#1e1b18",
-              "on-primary-container": "#5f2e00",
-              "on-secondary-fixed-variant": "#004d61",
-              "primary-fixed": "#ffdcc4",
-              "inverse-primary": "#ffb781",
-              "secondary-container": "#52d5ff",
-              "on-secondary": "#ffffff",
-              "tertiary-fixed": "#c4efa5",
-              "on-primary": "#ffffff",
-              "surface-bright": "#fff8f5",
-              "on-tertiary-fixed-variant": "#2d4f17",
-              "on-tertiary-fixed": "#0a2100",
-              "inverse-on-surface": "#f8efea",
-              "surface-container-highest": "#e9e1dc",
-              "surface-container-high": "#efe6e2",
-              "surface-tint": "#934b00",
-              "on-tertiary-container": "#22430c",
-              "tertiary-fixed-dim": "#a9d38b",
-              "surface-variant": "#e9e1dc",
-              "on-background": "#1e1b18",
-              "on-secondary-container": "#005a70",
-              "surface-dim": "#e1d8d4",
-              error: "#ba1a1a",
-              "inverse-surface": "#34302c",
-              "primary-container": "#f28c33",
-              outline: "#887365",
-              tertiary: "#44682d",
-              "secondary-fixed": "#b8eaff",
-              surface: "#fff8f5",
-              secondary: "#006780",
-              "surface-container": "#f5ece7",
-              background: "#fff8f5",
-              "on-surface-variant": "#554337",
-              "on-secondary-fixed": "#001f28",
-              "on-error": "#ffffff",
-              "secondary-fixed-dim": "#52d5ff",
-              "tertiary-container": "#89b16d",
-              "error-container": "#ffdad6",
-              "on-primary-fixed-variant": "#703800",
-              "surface-container-lowest": "#ffffff",
-              "surface-container-low": "#fbf2ed",
-              "on-tertiary": "#ffffff",
-              "on-error-container": "#93000a",
-              "primary-fixed-dim": "#ffb781",
-              "on-primary-fixed": "#301400",
-            },
-            borderRadius: {
-              DEFAULT: "1rem",
-              lg: "2rem",
-              xl: "3rem",
-              full: "9999px",
-            },
-            spacing: {
-              "margin-desktop": "64px",
-              lg: "48px",
-              md: "24px",
-              xs: "4px",
-              base: "8px",
-              sm: "12px",
-              xl: "80px",
-              gutter: "20px",
-              "margin-mobile": "16px",
-              "section-gap": "80px",
-            },
-            fontFamily: {
-              "headline-lg": ["Quicksand"],
-              "body-lg": ["Quicksand"],
-              "headline-md": ["Quicksand"],
-              "display-lg": ["Quicksand"],
-              "body-md": ["Quicksand"],
-              "headline-lg-mobile": ["Quicksand"],
-              "label-md": ["Quicksand"],
-            },
-            fontSize: {
-              "headline-lg": ["32px", { lineHeight: "1.3", fontWeight: "700" }],
-              "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
-              "headline-md": ["24px", { lineHeight: "1.4", fontWeight: "600" }],
-              "display-lg": [
-                "48px",
-                {
-                  lineHeight: "1.2",
-                  letterSpacing: "-0.02em",
-                  fontWeight: "700",
-                },
-              ],
-              "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
-              "headline-lg-mobile": [
-                "28px",
-                { lineHeight: "1.3", fontWeight: "700" },
-              ],
-              "label-md": [
-                "14px",
-                {
-                  lineHeight: "1.2",
-                  letterSpacing: "0.05em",
-                  fontWeight: "600",
-                },
-              ],
-            },
-          },
-        },
-      };
-    </script>
-    <style>
-      .material-symbols-outlined {
-        font-variation-settings:
-          "FILL" 0,
-          "wght" 400,
-          "GRAD" 0,
-          "opsz" 40;
-      }
-
-      .material-symbols-outlined.filled {
-        font-variation-settings:
-          "FILL" 1,
-          "wght" 400,
-          "GRAD" 0,
-          "opsz" 40;
-      }
-
-      .shadow-pop {
-        box-shadow: 0 4px 0 0 rgba(147, 75, 0, 0.2);
-      }
-      .shadow-pop:active {
-        box-shadow: 0 0 0 0 rgba(147, 75, 0, 0.2);
-        transform: translateY(4px);
-      }
-      .squishy-hover:hover {
-        transform: scale(1.02) rotate(-0.5deg);
-      }
-      .glass-card {
-        background: rgba(255, 248, 245, 0.8);
-        backdrop-filter: blur(12px);
-      }
-    </style>
 
     <script type="application/ld+json">
     {
@@ -359,7 +216,7 @@
             <p class="font-body-lg text-body-lg text-on-surface-variant">
               En <strong class="text-primary-container">Divertipedia</strong>,
               creemos que cada niño es un universo de posibilidades. Nuestra
-              misión es impulsar el aprendizaje, la creatividad y la sana
+              misión es impulsar el aprendizaje, la creatividad and la sana
               convivencia a través de actividades dinámicas diseñadas por
               expertos.
             </p>
