@@ -17,7 +17,7 @@
     <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
     <link rel="dns-prefetch" href="https://unpkg.com" />
     <link rel="preload" href="../public/img/DivertiLogo.webp" as="image" fetchpriority="high" />
-
+    <link rel="preload" href="https://fonts.gstatic.com/s/quicksand/v37/6xKtdSZaM9iE8KbpRA_hK1QN.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://divertipedia.com/Services/krea.html" />
     <meta property="og:title" content="Prekinder KREA Montessori en Culiacán | Divertipedia" />
@@ -35,7 +35,7 @@
     <noscript><link rel="stylesheet" href="../public/css/style.css" /></noscript>
 
     <link
-      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=optional"
       rel="stylesheet"
       media="print" onload="this.media='all'"
     />
@@ -44,17 +44,11 @@
       rel="stylesheet"
       media="print" onload="this.media='all'"
     />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-      crossorigin=""
-      media="print" onload="this.media='all'"
-    />
+    
     <noscript>
-      <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=optional" rel="stylesheet" />
       <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+      
     </noscript>
 
     <script type="application/ld+json">
@@ -547,8 +541,10 @@
     ></script>
     <script defer>
       const ubicacionLat=24.821846,ubicacionLng=-107.443665;
+            function injectLeafletCSS(){const e=document.createElement('link');e.rel='stylesheet';e.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';e.integrity='sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=';e.crossOrigin='';document.head.appendChild(e)}
+
       function inicializarMapa(){const map=L.map("map",{scrollWheelZoom:false,attributionControl:false}).setView([ubicacionLat,ubicacionLng],16);L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"\u00a9 OpenStreetMap contributors"}).addTo(map);L.marker([ubicacionLat,ubicacionLng]).addTo(map).bindPopup('<div style="text-align:center;font-family:Quicksand,sans-serif"><b style="color:#934b00;font-size:16px">Divertipedia</b><br><span style="color:#554337;font-size:14px">Camalotes 4825, Fracc. Bonaterra</span><br><span style="color:#554337;font-size:12px">C.P. 80058, Culiac\u00e1n, Sin.</span><br><br><b>\u00a1Vis\u00edtanos pronto!</b></div>').openPopup();setTimeout(()=>{map.invalidateSize()},500)}
-      const mapContainer=document.getElementById("map");if(mapContainer){new IntersectionObserver((e,o)=>{e.forEach(entry=>{if(entry.isIntersecting){inicializarMapa();o.disconnect()}})},{rootMargin:"100px"}).observe(mapContainer)}
+      const mapContainer=document.getElementById("map");if(mapContainer){new IntersectionObserver((e,o)=>{e.forEach(entry=>{if(entry.isIntersecting){injectLeafletCSS();inicializarMapa();o.disconnect()}})},{rootMargin:"100px"}).observe(mapContainer)}
       window.addEventListener("scroll",()=>{const header=document.querySelector("header"),nav=header.querySelector("nav");window.scrollY>50?(nav.classList.add("h-16","md:h-20"),nav.classList.remove("h-20","md:h-28")):(nav.classList.remove("h-16","md:h-20"),nav.classList.add("h-20","md:h-28"))})
       const scrollObserver=new IntersectionObserver(e=>{e.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("opacity-100","translate-y-0");entry.target.classList.remove("opacity-0","translate-y-10")}})},{threshold:.1});document.querySelectorAll("section>div").forEach(el=>{el.classList.add("transition-all","duration-700","opacity-0","translate-y-10");scrollObserver.observe(el)})
     </script>

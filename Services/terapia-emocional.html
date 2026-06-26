@@ -17,7 +17,7 @@
     <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
     <link rel="dns-prefetch" href="https://unpkg.com" />
     <link rel="preload" href="../public/img/DivertiLogo.webp" as="image" fetchpriority="high" />
-
+    <link rel="preload" href="https://fonts.gstatic.com/s/quicksand/v37/6xKtdSZaM9iE8KbpRA_hK1QN.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://divertipedia.com/Services/terapia-emocional.html" />
     <meta property="og:title" content="Terapia Emocional Infantil en Culiacán | Divertipedia" />
@@ -36,23 +36,18 @@
     <noscript><link rel="stylesheet" href="../public/css/style.css" /></noscript>
     
     <link
-      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=optional"
       rel="stylesheet" media="print" onload="this.media='all'"
     />
     <link
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
       rel="stylesheet" media="print" onload="this.media='all'"
     />
-    <link
-      rel="stylesheet" media="print" onload="this.media='all'"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-      crossorigin=""
-    />
+    
     <noscript>
-      <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=optional" rel="stylesheet" />
       <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+      
     </noscript>
 
     <script type="application/ld+json">
@@ -534,6 +529,9 @@
       const ubicacionLat = 24.821846;
       const ubicacionLng = -107.443665;
 
+            function injectLeafletCSS(){const e=document.createElement('link');e.rel='stylesheet';e.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';e.integrity='sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=';e.crossOrigin='';document.head.appendChild(e)}
+
+
       function inicializarMapa() {
         const map = L.map("map", {
           scrollWheelZoom: false,
@@ -567,7 +565,7 @@
       const mapObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            inicializarMapa();
+            injectLeafletCSS();inicializarMapa();
             observer.disconnect();
           }
         });
