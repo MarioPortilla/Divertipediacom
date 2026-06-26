@@ -16,6 +16,7 @@
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
     <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
 
+    <link rel="preload" href="public/img/DivertiBackGround-400.webp" as="image" fetchpriority="high" media="(max-width: 768px)" />
     <link rel="preload" href="public/img/DivertiBackGround-1200.webp" as="image" fetchpriority="high" media="(min-width: 769px)" />
     <link rel="preload" href="public/img/DivertiLogo.webp" as="image" />
     <link rel="preload" href="https://fonts.gstatic.com/s/quicksand/v37/6xKtdSZaM9iE8KbpRA_hK1QN.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
@@ -153,9 +154,19 @@
         id="inicio"
       >
         <div class="absolute inset-0 z-0">
-          <div class="absolute inset-0 opacity-20 md:opacity-100"
-               style="background-image:url('public/img/DivertiBackGround-400.webp');background-size:cover;background-position:center">
-          </div>
+          <picture>
+            <source media="(max-width: 768px)" srcset="public/img/DivertiBackGround-400.webp" />
+            <source media="(min-width: 769px)" srcset="public/img/DivertiBackGround-1200.webp" />
+            <img
+              alt="Divertipedia Hero"
+              class="w-full h-full object-cover opacity-20 md:opacity-100"
+              src="public/img/DivertiBackGround-400.webp"
+              fetchpriority="high"
+              width="1920"
+              height="1080"
+              decoding="async"
+            />
+          </picture>
           <div
             class="absolute inset-0 bg-gradient-to-r from-surface via-surface/80 to-transparent"
           ></div>
